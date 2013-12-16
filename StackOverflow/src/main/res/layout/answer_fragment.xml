@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <tp.stackoverflow.views.SlidingLayer
+        xmlns:slidingLayer="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/slidingLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        slidingLayer:shadowDrawable="@drawable/sidebar_shadow"
+        slidingLayer:shadowWidth="@dimen/shadow_width"
+        slidingLayer:offsetWidth="@dimen/offset_width">
+        <!--            &lt;!&ndash;slidingLayer:closeOnTapEnabled="true"&ndash;&gt;/>-->
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_below="@id/image"
+                android:text="@string/Title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_below="@+id/title"
+                android:text="@string/date"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <ListView
+                android:layout_below="@id/date"
+                android:id="@+id/answerLw"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+            </ListView>
+        </RelativeLayout>
+
+
+
+    </tp.stackoverflow.views.SlidingLayer>
+</LinearLayout>

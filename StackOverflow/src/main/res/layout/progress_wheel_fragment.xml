@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <tp.stackoverflow.views.ProgressWheel
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/progressBarTwo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            ProgressWheel:text="Loading"
+            ProgressWheel:textColor="#222222"
+            ProgressWheel:textSize="14sp"
+            ProgressWheel:rimColor="#44000000"
+            ProgressWheel:barLength="60dp"
+            ProgressWheel:barColor="#339BB9"
+            ProgressWheel:barWidth="25dp"
+            ProgressWheel:rimWidth="25dp"
+            ProgressWheel:spinSpeed="3dp" />
+
+        </RelativeLayout>
+</LinearLayout>

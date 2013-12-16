@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Library">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../Sliding_layer/android-sliding-layer-lib/Library" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../Sliding_layer/android-sliding-layer-lib/Library/gen" />
+      <root url="file://$PROJECT_DIR$/../../Sliding_layer/android-sliding-layer-lib/Library/src" />
+    </SOURCES>
+  </library>
+</component>
