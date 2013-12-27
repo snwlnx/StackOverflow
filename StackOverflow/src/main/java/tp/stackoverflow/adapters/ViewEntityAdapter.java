@@ -42,19 +42,22 @@ public class ViewEntityAdapter extends ArrayAdapter<ListViewEntity> {
         this.answers = answers;
     }
 
-    public void updateData(List<ListViewEntity> answers){
+/*    public void updateData(List<ListViewEntity> answers){
         this.answers = answers;
-    }
+    }*/
 
     private String processRawString(String body,Map<Integer,Integer> indexes){
-        for(int lastIndex,firstIndex=body.indexOf("<code>",0);firstIndex >= 0;){
-
-            body       = body.replaceFirst("<code>", "");
-            lastIndex  = body.indexOf("</code>",firstIndex);//-"<code>".length();
+        final String startCode = "&^", endCode = "^&";
+        body = body.replaceAll("code","&^").replaceAll("code","^&");
+        body = body.replaceAll("\\<.*?>","");
+        for(int lastIndex,firstIndex=body.indexOf(startCode,0);firstIndex >= 0;){
+            body       = body.replaceFirst(startCode, "");
+            lastIndex  = body.indexOf(endCode,firstIndex);//-"<code>".length();
             indexes.put(firstIndex,lastIndex);
-            body       = body.replaceFirst("</code>", "");
-            firstIndex = body.indexOf("<code>",lastIndex);
+            body       = body.replaceFirst(endCode, "");
+            firstIndex = body.indexOf(startCode,lastIndex);
         }
+
         return body;
 
     }
@@ -98,10 +101,12 @@ public class ViewEntityAdapter extends ArrayAdapter<ListViewEntity> {
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(Integer.parseInt(answer.getDate()) * 1000);
+        String body = answer.getBody();
 
-        holder.body.setText(emphasizeСode(answer.getBody()), TextView.BufferType.SPANNABLE);
+        holder.body.setText(emphasizeСode(body), TextView.BufferType.SPANNABLE);
         holder.date.setText(cal.getTime().toString());
         holder.userName.setText(answer.getDisplayName());
+
         byte[] bytes = answer.getImage();
         if (bytes != null && bytes.length != 0) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

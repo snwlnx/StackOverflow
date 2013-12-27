@@ -34,12 +34,13 @@ import tp.stackoverflow.fragments.AnswersFragment;
 import tp.stackoverflow.fragments.AnswersFragmentDeprecated;
 import tp.stackoverflow.fragments.ProgressWheelFragment;
 import tp.stackoverflow.fragments.QuestionsFragment;
+import tp.stackoverflow.service_requests.RequestDetails;
 import tp.stackoverflow.views.SlidingLayer;
 
 public class MainActivity extends ActionBarActivity  /*implements LoaderManager.LoaderCallbacks<List<Question>>*/{
 
 /*    private int              requestId;
-    private QuestionAdapter  questionAdapter;*/
+    private QuestionAdapterDeprecated  questionAdapter;*/
     //private ListView         lw;
     public DownloadService.DownloadBinder binder;
     private boolean          mBound;
@@ -61,7 +62,7 @@ public class MainActivity extends ActionBarActivity  /*implements LoaderManager.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*questionAdapter = new QuestionAdapter(this);*/
+        /*questionAdapter = new QuestionAdapterDeprecated(this);*/
         /*lw = (ListView)findViewById(R.id.listView);*/
         /*lw.setAdapter(questionAdapter);*/
         mTitle = mDrawerTitle = getTitle();
@@ -236,7 +237,15 @@ public class MainActivity extends ActionBarActivity  /*implements LoaderManager.
         }
     }
 
-
+    public void getQuestions(RequestDetails details) {
+        if(isOnline()){
+            if(binder != null){
+                binder.getQuestions(details);
+            }
+        }else {
+            Toast.makeText(this, "You are offline", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     /* The click listener for ListView in the navigation drawer */
@@ -294,24 +303,35 @@ public class MainActivity extends ActionBarActivity  /*implements LoaderManager.
 
             switch (msg.status){
                 case COMPLETE:{
-                    questionsFragment = new QuestionsFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(QuestionsFragment.REQUEST_NUMBER, msg.requestId);
-                    questionsFragment.setArguments(args);
+                    if(msg.page == 1) {
+                        questionsFragment = new QuestionsFragment();
+                        Bundle args = new Bundle();
+                        args.putInt(QuestionsFragment.REQUEST_NUMBER, msg.requestId);
+                        args.putInt(QuestionsFragment.REQUEST_PAGE,msg.page);
+                        args.putString(QuestionsFragment.REQUEST_KEY, msg.requestKey);
+                        questionsFragment.setArguments(args);
 
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, questionsFragment).commit();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, questionsFragment).commit();
+
+                    } else {
+                        questionsFragment.updateAdapter();
+
+                    }
                     break;
-
                 }
                 case PENDING:{
-                    Fragment fragment = new ProgressWheelFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    if(msg.page == 1) {
+                        Fragment fragment = new ProgressWheelFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    } else {
+                        questionsFragment.addRequestId(msg.requestId);
+                    }
+
                     break;
                 }
                 case REFRESH:{
-
                     questionsFragment.updateAdapter();
                     break;
                 }
@@ -370,8 +390,6 @@ public class MainActivity extends ActionBarActivity  /*implements LoaderManager.
         fragmentManager.beginTransaction().add(answersFragment,"answer_fragment").commit();
 
         binder.getAnswers(questionId);
-
-
     }
 
 /*

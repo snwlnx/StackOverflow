@@ -8,8 +8,8 @@
     <ImageView
         android:id="@+id/image"
         android:src="@drawable/ic_launcher"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:layout_height="128px"
+        android:layout_width="128px"/>
     <TextView
         android:id="@+id/title"
         android:layout_below="@id/image"
@@ -19,8 +19,8 @@
 
     <TextView
         android:id="@+id/date"
-        android:layout_below="@+id/title"
-        android:text="@string/date"
+        android:layout_toRightOf="@+id/image"
+        android:text="User name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 

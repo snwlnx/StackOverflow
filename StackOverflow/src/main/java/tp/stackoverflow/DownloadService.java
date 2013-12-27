@@ -4,6 +4,7 @@ import tp.stackoverflow.service_requests.GetAnswersRequest;
 import tp.stackoverflow.service_requests.GetQuestionsRequest;
 import tp.stackoverflow.service_requests.GetUsersImages;
 import tp.stackoverflow.service_requests.GetUsersRequest;
+import tp.stackoverflow.service_requests.RequestDetails;
 import tp.stackoverflow.service_requests.ResponseDetails;
 import tp.stackoverflow.service_requests.ServiceRequest;
 
@@ -58,6 +59,11 @@ public class DownloadService extends Service{
         public void getQuestions(String searchKey){
             ServiceRequest request = new GetQuestionsRequest(searchKey,
                     mProcessor.getRequestsCount(),
+                    mProcessor, mRestMethods);
+            processRequest(request);
+        }
+        public void getQuestions(RequestDetails details){
+            ServiceRequest request = new GetQuestionsRequest(details, mProcessor.getRequestsCount(),
                     mProcessor, mRestMethods);
             processRequest(request);
         }

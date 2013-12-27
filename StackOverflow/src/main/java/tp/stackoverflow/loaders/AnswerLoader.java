@@ -73,10 +73,22 @@ public class AnswerLoader extends MainLoader {
             return necessaryUser;
         }
 
+        private int repeatUsers(){
+            int repeat = 0;
+            for (Answer answer : answers) {
+                for (Answer ans : answers) {
+                    if (answer.getId() != ans.getId() && ans.getUserId() == answer.getUserId()) {
+                        repeat++;
+                    }
+                }
+            }
+            return repeat/2;
+        }
+
         public  List<ListViewEntity>  getViewData(){
             List<ListViewEntity> viewEntities = new ArrayList<ListViewEntity>();
             int answerSize = answers.size(),userSize = users.size();
-            if (answerSize > 0 && answerSize == userSize) {
+            if (answerSize >0 && userSize == answerSize -repeatUsers()) {
                 for (Answer answer : answers) {
                     viewEntities.add(new FullQuestion(answer,findUser(answer.getUserId())));
                 }

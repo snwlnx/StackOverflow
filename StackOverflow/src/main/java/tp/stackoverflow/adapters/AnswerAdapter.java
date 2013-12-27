@@ -94,7 +94,9 @@ import tp.stackoverflow.entity_view.ListViewEntity;
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(Integer.parseInt(answer.getDate()) * 1000);
 
-            holder.body.setText(emphasizeСode(answer.getBody()), TextView.BufferType.SPANNABLE);
+            String body = answer.getBody();
+            body.replaceAll("\\<.*?>","");
+            holder.body.setText(emphasizeСode(body), TextView.BufferType.SPANNABLE);
             holder.date.setText(cal.getTime().toString());
 
             byte[] bytes = answer.getImage();

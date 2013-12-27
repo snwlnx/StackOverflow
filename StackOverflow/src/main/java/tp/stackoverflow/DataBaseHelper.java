@@ -30,7 +30,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     // name of the database file for your application
     private static final String DATABASE_NAME    = "tp.stackOverflow.db";
     // any time you make changes to your database objects, you may have to increase the database version
-    private static final int    DATABASE_VERSION = 11;
+    private static final int    DATABASE_VERSION = 14;
 
     // the DAO object we use to access the Book table
     private Dao requestDao = null;

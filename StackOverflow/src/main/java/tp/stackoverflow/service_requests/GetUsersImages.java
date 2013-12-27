@@ -22,6 +22,7 @@ import tp.stackoverflow.DataBaseManager;
 import tp.stackoverflow.Processor;
 import tp.stackoverflow.RESTMethods;
 import tp.stackoverflow.ResponseHandler;
+import tp.stackoverflow.ResponseMessage;
 import tp.stackoverflow.constants.RequestStatus;
 import tp.stackoverflow.constants.RequestType;
 import tp.stackoverflow.dao.UserDao;
@@ -70,6 +71,10 @@ public class GetUsersImages extends ServiceRequest{
             replaceCompleteStatus();
         }
     }
+    @Override
+    public ResponseMessage getResponseMessage() {
+        return new ResponseMessage(mRequestId,mStatus);
+    }
 
     @Override
     public URL getUrl(RESTMethods restMethods){
@@ -94,6 +99,7 @@ public class GetUsersImages extends ServiceRequest{
 
     @Override
     protected User convertToEntity(JSONObject jObject) { return null; }
+
 
     @Override
     public void processObject(JSONObject jsonObject) {

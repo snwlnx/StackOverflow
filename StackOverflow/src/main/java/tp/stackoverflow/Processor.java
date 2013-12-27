@@ -46,8 +46,13 @@ public class Processor {
     }
 
     public void sendResponseMessage(ServiceRequest request) {
-        ResponseMessage msg =  new ResponseMessage(request.getRequestId(),request.getStatus());
-        sendMessage(request,msg);
+        //ResponseMessage msg =  new ResponseMessage(request.getRequestId(),request.getStatus());
+
+        Intent intent = (new Intent()).setAction(request.getIntentFilter());
+        intent.putExtra(RESPONSE_MESSAGE,request.getResponseMessage());
+        service.sendBroadcast(intent);
+
+        //sendMessage(request,msg);
     }
 
     //Dispatch response code

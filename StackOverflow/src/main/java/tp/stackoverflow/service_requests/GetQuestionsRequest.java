@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 
+import tp.stackoverflow.ResponseMessage;
 import tp.stackoverflow.constants.RequestStatus;
 import tp.stackoverflow.constants.RequestType;
 import tp.stackoverflow.dao.QuestionDao;
@@ -23,26 +24,46 @@ import tp.stackoverflow.ResponseHandler;
  */
 public class GetQuestionsRequest extends ServiceRequest {
 
+    private int            page  = 1;
     private String         mRequestKey;
     private final String   intentFilter = QuestionsFragment.INTENT_FILTER;
     private RequestType    requestType  = RequestType.QUESTION;
     private QuestionDao    questionDao  = (QuestionDao) DataBaseManager.getInstance().getHelper().getEntitiesDao(Question.class);
 
 
-    public GetQuestionsRequest(String requestKey, int requestID,
+    public GetQuestionsRequest(String requestKey,   int requestID,
                                Processor processor, RESTMethods restMethods) {
         super(requestID,processor,restMethods);
         mRequestKey = requestKey;
         mStatus     = RequestStatus.PENDING;
     }
 
+
+    public GetQuestionsRequest(RequestDetails details,   int requestID,
+                               Processor processor, RESTMethods restMethods) {
+        super(requestID,processor,restMethods);
+        mRequestKey = details.getRequestKey();
+        mStatus     = RequestStatus.PENDING;
+        page        = details.getPage();
+    }
+
+    public GetQuestionsRequest(RequestDetails details,   Processor processor,
+                               RESTMethods    restMethods) {
+        super(details.getRequestId(),processor,restMethods);
+        mRequestKey = details.getRequestKey();
+        mStatus     = RequestStatus.PENDING;
+        page        = details.getPage();
+    }
+
     @Override
     public URL getUrl(RESTMethods restMethods){
-        return restMethods.getQuestionsUrl(mRequestKey);
+        return restMethods.getQuestionsUrl(mRequestKey,page);
     }
+
+
     @Override
     public String getRequestKey() {
-        return mRequestKey;
+        return mRequestKey + page;
     }
     @Override
     public String getIntentFilter() {
@@ -72,6 +93,11 @@ public class GetQuestionsRequest extends ServiceRequest {
             e.printStackTrace();
         }
         return question;
+    }
+
+    @Override
+    public ResponseMessage getResponseMessage() {
+        return new ResponseMessage(mRequestId,mStatus,mRequestKey,page);
     }
 
     @Override

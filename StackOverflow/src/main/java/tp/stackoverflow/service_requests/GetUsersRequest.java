@@ -9,6 +9,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Set;
 
+import tp.stackoverflow.ResponseMessage;
 import tp.stackoverflow.constants.RequestStatus;
 import tp.stackoverflow.constants.RequestType;
 import tp.stackoverflow.dao.UserDao;
@@ -93,6 +94,11 @@ public class GetUsersRequest extends ServiceRequest{
         return jObject.getInt(User.USER_ID);
     }
 
+    @Override
+    public ResponseMessage getResponseMessage() {
+        return new ResponseMessage(mRequestId,mStatus);
+    }
+
 
 
     @Override
@@ -110,6 +116,7 @@ public class GetUsersRequest extends ServiceRequest{
         }
         return user;
     }
+
 
     @Override
     public void processObject(JSONObject jsonObject) {

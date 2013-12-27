@@ -9,12 +9,13 @@
     <ImageView
         android:id="@+id/answerImage"
         android:src="@drawable/ic_launcher"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:layout_height="128px"
+        android:layout_width="128px"/>
     <TextView
         android:id="@+id/answerBody"
         android:layout_below="@id/answerImage"
         android:text="@string/Title"
+        android:textSize="10dp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"/>
 
@@ -27,8 +28,9 @@
 
     <TextView
         android:id="@+id/userName"
-        android:layout_below="@+id/answerDate"
-        android:text="@string/date"
+        android:layout_toRightOf="@+id/answerImage"
+        android:textSize="30dp"
+        android:text="User Name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 
+import tp.stackoverflow.ResponseMessage;
 import tp.stackoverflow.constants.RequestStatus;
 import tp.stackoverflow.constants.RequestType;
 import tp.stackoverflow.database_entities.DbEntity;
@@ -49,6 +50,10 @@ public  abstract class ServiceRequest implements Runnable {
 
     protected abstract DbEntity convertToEntity(JSONObject jObject);
 
+    public ResponseMessage getResponseMessage() {
+        return new ResponseMessage(mRequestId,mStatus);
+    }
+
     public abstract void        processObject(JSONObject jsonObject);
 
     public abstract URL         getUrl(RESTMethods restMethods);
@@ -60,5 +65,6 @@ public  abstract class ServiceRequest implements Runnable {
     public abstract String      getIntentFilter();
 
     public abstract void        processEntityObject(ResponseHandler handler, JSONArray jArray);
+
 
 }

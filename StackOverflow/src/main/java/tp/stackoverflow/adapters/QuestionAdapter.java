@@ -1,9 +1,8 @@
 package tp.stackoverflow.adapters;
 
-/**
- * Created by korolkov on 11/28/13.
- */
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,35 +13,58 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.List;
 
-import tp.stackoverflow.database_entities.DbEntity;
-import tp.stackoverflow.entity_view.FullQuestion;
-import tp.stackoverflow.database_entities.Question;
 import tp.stackoverflow.R;
+import tp.stackoverflow.entity_view.ListViewEntity;
 
-public class QuestionAdapter extends ArrayAdapter<DbEntity> {
-    private  Activity       activity;
-    private  List<DbEntity> questions;
+/**
+ * Created by korolkov on 12/12/13.
+ */
+
+
+public class QuestionAdapter extends ArrayAdapter<ListViewEntity> {
+    private Activity activity;
+    private List<ListViewEntity> questions;
 
     static class ViewHolder {
         public ImageView image;
-        public TextView  title;
-        public TextView  date;
+        public TextView title;
+        public TextView  displayName;
         public TextView  id;
     }
 
-    public QuestionAdapter(Activity activity,List<DbEntity> questions) {
+    public QuestionAdapter(Activity activity, List<ListViewEntity> questions) {
         super(activity, R.layout.question,questions);
         this.activity  = activity;
         this.questions = questions;
-
     }
 
-    public void updateData(List<DbEntity> questions){
+    public void updateData(List<ListViewEntity> questions){
         this.questions = questions;
     }
 
-    public Question getQuestion(int position){
-        return (Question)questions.get(position);
+    public int getQuestionId(int position){
+        return questions.get(position).getEntityId();
+    }
+
+    public void addQuestions(List<ListViewEntity> questions){
+        if(!refreshQuestions(questions)) {
+            this.questions.addAll(questions);
+        }
+    }
+
+    private boolean refreshQuestions(List<ListViewEntity> entities) {
+        boolean updated = false;
+        //for(ListViewEntity question : this.questions) {
+        for(int i = 0, length = questions.size(); i < length; i++ ) {
+            for (ListViewEntity entity : entities) {
+                if (questions.get(i).getEntityId() == entity.getEntityId()) {
+                    this.questions.set(i,entity);
+                    updated = true;
+                    break;
+                }
+            }
+        }
+        return updated;
     }
 
     @Override
@@ -53,21 +75,29 @@ public class QuestionAdapter extends ArrayAdapter<DbEntity> {
             rowView = inflater.inflate(R.layout.question, null);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) rowView.findViewById(R.id.title);
-            viewHolder.date = (TextView) rowView.findViewById(R.id.date);
+            viewHolder.displayName = (TextView) rowView.findViewById(R.id.date);
             viewHolder.image = (ImageView) rowView
                     .findViewById(R.id.image);
             rowView.setTag(viewHolder);
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        FullQuestion question = (FullQuestion)questions.get(position);
+        ListViewEntity question = questions.get(position);
         //TODO calendar
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(Integer.parseInt(question.getDate()) * 1000);
+        //cal.setTimeInMillis(Integer.parseInt(question.getDate()) * 1000);
         holder.title.setText(question.getTitle());
-        holder.date.setText(cal.getTime().toString());
+        holder.displayName.setText(question.getDisplayName());
         //holder.date.setText(Integer.toString(question.getQuestionId()));
-        holder.image.setImageResource(R.drawable.ic_launcher);
+        byte[] bytes = question.getImage();
+        if (bytes != null && bytes.length != 0) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            holder.image.setImageBitmap(bitmap);
+        } else {
+            holder.image.setImageResource(R.drawable.ic_launcher);
+        }
+
+
 
         return rowView;
     }

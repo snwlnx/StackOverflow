@@ -5,6 +5,7 @@ import android.content.Context;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import tp.stackoverflow.database_entities.Answer;
 import tp.stackoverflow.dao.QuestionDao;
@@ -20,12 +21,13 @@ import tp.stackoverflow.entity_view.ListViewEntity;
  */
 public class QuestionLoader extends MainLoader {
 
+    private  List<Integer> pageRequestsID;
 
-
-    public QuestionLoader(Context ctx, int requestID) {
+    public QuestionLoader(Context ctx,int requestID, List<Integer> pRequestsID) {
         super(ctx,requestID);
-        questionDao = (QuestionDao) DataBaseManager.getInstance().getHelper().getEntitiesDao(Question.class);
-        userDao = (UserDao) DataBaseManager.getInstance().getHelper().getEntitiesDao(User.class);
+        userDao         = (UserDao) DataBaseManager.getInstance().getHelper().getEntitiesDao(User.class);
+        questionDao     = (QuestionDao) DataBaseManager.getInstance().getHelper().getEntitiesDao(Question.class);
+        pageRequestsID  =  pRequestsID;
     }
 
 
@@ -35,21 +37,11 @@ public class QuestionLoader extends MainLoader {
         return getViewEntities();
     }
 
-
     private List<ListViewEntity> getViewEntities() {
-        List<Question> dataQuestion = new ArrayList<Question>();
-        List<User>     dataUser     = new ArrayList<User>();
-
-        try {
-            dataQuestion = questionDao.queryForEq(Question.REQUEST_ID,entityId);
-            dataUser     = userDao.getUsers(getUsersId(new ArrayList<Answer>(dataQuestion)));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        List<Question>  dataQuestion = questionDao.getQuestions(pageRequestsID);
+        List<User>      dataUser     = userDao.getUsers(getUsersId(new ArrayList<Answer>(dataQuestion)));
         ViewDataCollector collector = new ViewDataCollector(dataQuestion,dataUser);
         return   collector.getViewData();
-
     }
 
 
@@ -76,15 +68,27 @@ public class QuestionLoader extends MainLoader {
             return necessaryUser;
         }
 
+
+        private int repeatUsers(){
+            int repeat = 0;
+            for (Answer answer : questions) {
+                for (Answer ans : questions) {
+                    if (answer.getEntityId() != ans.getEntityId() && ans.getUserId() == answer.getUserId()) {
+                        repeat++;
+                    }
+                }
+            }
+            return repeat/2;
+        }
+
         public  List<ListViewEntity>  getViewData(){
             List<ListViewEntity> viewEntities = new ArrayList<ListViewEntity>();
 
-            if (users.size() != 0 && questions.size() != 0) {
+            if (questions.size() > 0 && (users.size() == (questions.size() - repeatUsers()))) {
                 for (Question question : questions) {
                     viewEntities.add(new FullQuestion(question,findUser(question.getUserId())));
-
                 }
-            } else if (questions.size() != 0) {
+            } else if (questions.size() > 0) {
                 for (Question question : questions) {
                     viewEntities.add(new FullQuestion(question));
                 }

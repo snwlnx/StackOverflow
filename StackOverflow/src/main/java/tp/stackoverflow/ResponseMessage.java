@@ -11,16 +11,25 @@ import tp.stackoverflow.constants.RequestStatus;
 public class ResponseMessage implements Parcelable {
     public int            requestId;
     public RequestStatus  status;
+    int                   page       = 0;
+    String                requestKey = "";
     String                errCode    = "OK";
 
 
-    ResponseMessage(int requestId, RequestStatus status, String errCode){
+    public ResponseMessage(int requestId, RequestStatus status, String errCode){
         this.requestId  = requestId;
         this.status     = status;
         this.errCode    = errCode;
     }
 
-    ResponseMessage(int requestId, RequestStatus status){
+    public ResponseMessage(int requestId, RequestStatus status,String requestKey, int page){
+        this(requestId,status);
+        this.page          = page;
+        this.requestKey    = requestKey;
+
+    }
+
+    public ResponseMessage(int requestId, RequestStatus status){
         this(requestId,status,null);
     }
 
@@ -32,7 +41,9 @@ public class ResponseMessage implements Parcelable {
 
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(requestId);
+        out.writeInt(page);
         out.writeString(status.name());
+        out.writeString(requestKey);
         out.writeString(errCode);
     }
 
@@ -49,8 +60,10 @@ public class ResponseMessage implements Parcelable {
     };
 
     private ResponseMessage(Parcel in) {
-        requestId = in.readInt();
-        status    = RequestStatus.valueOf(in.readString());
-        errCode   = in.readString();
+        requestId  = in.readInt();
+        page       = in.readInt();
+        status     = RequestStatus.valueOf(in.readString());
+        requestKey = in.readString();
+        errCode    = in.readString();
     }
 }
