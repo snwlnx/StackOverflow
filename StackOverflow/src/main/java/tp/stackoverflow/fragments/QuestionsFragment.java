@@ -14,12 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import tp.stackoverflow.adapters.QuestionAdapter;
-import tp.stackoverflow.entity_view.FullQuestion;
 import tp.stackoverflow.entity_view.ListViewEntity;
 import tp.stackoverflow.loaders.QuestionLoader;
 import tp.stackoverflow.MainActivity;

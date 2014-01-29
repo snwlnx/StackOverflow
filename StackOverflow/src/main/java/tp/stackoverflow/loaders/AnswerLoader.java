@@ -12,7 +12,7 @@ import tp.stackoverflow.dao.QuestionDao;
 import tp.stackoverflow.database_entities.Answer;
 import tp.stackoverflow.database_entities.Question;
 import tp.stackoverflow.DataBaseManager;
-import tp.stackoverflow.entity_view.FullQuestion;
+import tp.stackoverflow.entity_view.MainQuestion;
 import tp.stackoverflow.entity_view.ListViewEntity;
 
 /**
@@ -90,11 +90,11 @@ public class AnswerLoader extends MainLoader {
             int answerSize = answers.size(),userSize = users.size();
             if (answerSize >0 && userSize == answerSize -repeatUsers()) {
                 for (Answer answer : answers) {
-                    viewEntities.add(new FullQuestion(answer,findUser(answer.getUserId())));
+                    viewEntities.add(new MainQuestion(answer,findUser(answer.getUserId())));
                 }
             } else if (answers.size() > 0) {
                 for (Answer answer : answers) {
-                    viewEntities.add(new FullQuestion(answer));
+                    viewEntities.add(new MainQuestion(answer));
                 }
             }
             return viewEntities;

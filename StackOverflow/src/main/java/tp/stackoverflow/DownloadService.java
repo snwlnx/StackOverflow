@@ -35,7 +35,6 @@ public class DownloadService extends Service{
 
     private class ServiceHandler extends  Handler{
         private ServiceHandler(Looper looper) { super(looper);}
-
     }
 
     public class DownloadBinder extends Binder{
@@ -45,7 +44,6 @@ public class DownloadService extends Service{
                 mServiceHandler.post(request);
             }
         }
-
         //TODO api for activity
 
         public void getAnswers(int searchKey){
@@ -55,13 +53,13 @@ public class DownloadService extends Service{
             processRequest(request);
         }
 
-
         public void getQuestions(String searchKey){
             ServiceRequest request = new GetQuestionsRequest(searchKey,
                     mProcessor.getRequestsCount(),
                     mProcessor, mRestMethods);
             processRequest(request);
         }
+
         public void getQuestions(RequestDetails details){
             ServiceRequest request = new GetQuestionsRequest(details, mProcessor.getRequestsCount(),
                     mProcessor, mRestMethods);
@@ -83,6 +81,7 @@ public class DownloadService extends Service{
             request.setIntentFilter(responseDetails.getIntentFilter());
             processRequest(request);
         }
+
        public void getUsersImages(Set<Map.Entry<Integer,String>>  usersImages, ResponseDetails responseDetails) {
            GetUsersImages request = new GetUsersImages(usersImages,
                    mProcessor.getRequestsCount(),
@@ -104,15 +103,14 @@ public class DownloadService extends Service{
 
     @Override
     public void onCreate() {
-        HandlerThread thread = new HandlerThread("ServiceThread",
-                Process.THREAD_PRIORITY_BACKGROUND);
+        HandlerThread thread = new HandlerThread("ServiceThread",Process.THREAD_PRIORITY_BACKGROUND);
         thread.start();
         mLooper         = thread.getLooper();
         mServiceHandler = new ServiceHandler(mLooper);
     }
 
-    /*   @Override
-    public void onUnbind(){
+  /*@Override
+      public void onUnbind(){
     }   */
 
 

@@ -65,7 +65,7 @@ public class ResponseHandler {
         try {
              for (int i = 0, length = jArray.length(); i < length; i++) {
                 usersId.add(getUserId(jArray.getJSONObject(i)));
-                serviceRequest.processObject(jArray.getJSONObject(i));
+                serviceRequest.writeObjectToDB(jArray.getJSONObject(i));
              }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -85,7 +85,7 @@ public class ResponseHandler {
             for (int i = 0, length = jArray.length(); i < length; i++) {
                 jObject = jArray.getJSONObject(i);
                 imageUrls.add(new AbstractMap.SimpleEntry<Integer, String>(sv.getUserId(jObject),sv.getImageUrl(jObject)));
-                sv.processObject(jArray.getJSONObject(i));
+                sv.writeObjectToDB(jArray.getJSONObject(i));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -99,7 +99,7 @@ public class ResponseHandler {
         try {
             //TODO one row
             JSONArray jArray  = new JSONObject(responseString).getJSONArray("items");
-            serviceRequest.processEntityObject( this, jArray);
+            serviceRequest.choiceEntityHandlerMethod(this, jArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }

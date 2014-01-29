@@ -87,7 +87,7 @@ public class GetUsersImages extends ServiceRequest{
 
 
     @Override
-    public void processEntityObject(ResponseHandler handler, JSONArray jArray) {
+    public void choiceEntityHandlerMethod(ResponseHandler handler, JSONArray jArray) {
         //handler.processUserObject(this,jArray);
     }
 
@@ -102,8 +102,7 @@ public class GetUsersImages extends ServiceRequest{
 
 
     @Override
-    public void processObject(JSONObject jsonObject) {
-    }
+    public void writeObjectToDB(JSONObject jsonObject) {}
 
     public void processObject(int userId, byte[] bitmap) {
         UpdateBuilder<User, Integer> builder =  userDao.updateBuilder();

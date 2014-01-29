@@ -18,6 +18,7 @@ import tp.stackoverflow.ResponseHandler;
  * Created by korolkov on 11/21/13.
  */
 public  abstract class ServiceRequest implements Runnable {
+
     protected int            mRequestId;
     protected Processor      mProcessor;
     protected RESTMethods    mRestMethods;
@@ -29,9 +30,14 @@ public  abstract class ServiceRequest implements Runnable {
         mRestMethods = restMethods;
     }
 
-    public  int getRequestId(){
+    public  int           getRequestId(){
         return mRequestId;
     }
+
+    public  RequestStatus getStatus(){
+        return mStatus;
+    }
+
 
     public void updateRequestId(Request requestEntity) {
         mRequestId = requestEntity.getId();
@@ -42,29 +48,16 @@ public  abstract class ServiceRequest implements Runnable {
         mStatus = status;
     }
 
-    public RequestStatus getStatus(){
-        return mStatus;
-    }
-
-
-
-    protected abstract DbEntity convertToEntity(JSONObject jObject);
-
     public ResponseMessage getResponseMessage() {
         return new ResponseMessage(mRequestId,mStatus);
     }
 
-    public abstract void        processObject(JSONObject jsonObject);
-
-    public abstract URL         getUrl(RESTMethods restMethods);
-
-    public abstract String      getRequestKey();
-
-    public abstract RequestType getRequestType();
-
-    public abstract String      getIntentFilter();
-
-    public abstract void        processEntityObject(ResponseHandler handler, JSONArray jArray);
-
+    protected abstract DbEntity    convertToEntity(JSONObject jObject);
+    public    abstract void        writeObjectToDB(JSONObject jsonObject);
+    public    abstract URL         getUrl(RESTMethods restMethods);
+    public    abstract String      getRequestKey();
+    public    abstract RequestType getRequestType();
+    public    abstract String      getIntentFilter();
+    public    abstract void        choiceEntityHandlerMethod(ResponseHandler handler, JSONArray jArray);
 
 }

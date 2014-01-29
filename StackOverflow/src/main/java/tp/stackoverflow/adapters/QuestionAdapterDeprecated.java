@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import tp.stackoverflow.database_entities.DbEntity;
-import tp.stackoverflow.entity_view.FullQuestion;
+import tp.stackoverflow.entity_view.MainQuestion;
 import tp.stackoverflow.database_entities.Question;
 import tp.stackoverflow.R;
 
@@ -60,7 +60,7 @@ public class QuestionAdapterDeprecated extends ArrayAdapter<DbEntity> {
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        FullQuestion question = (FullQuestion)questions.get(position);
+        MainQuestion question = (MainQuestion)questions.get(position);
         //TODO calendar
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(Integer.parseInt(question.getDate()) * 1000);

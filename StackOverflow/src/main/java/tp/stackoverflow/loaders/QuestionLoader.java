@@ -2,15 +2,13 @@ package tp.stackoverflow.loaders;
 
 import android.content.Context;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import tp.stackoverflow.database_entities.Answer;
 import tp.stackoverflow.dao.QuestionDao;
 import tp.stackoverflow.dao.UserDao;
-import tp.stackoverflow.entity_view.FullQuestion;
+import tp.stackoverflow.entity_view.MainQuestion;
 import tp.stackoverflow.database_entities.Question;
 import tp.stackoverflow.database_entities.User;
 import tp.stackoverflow.DataBaseManager;
@@ -86,11 +84,11 @@ public class QuestionLoader extends MainLoader {
 
             if (questions.size() > 0 && (users.size() == (questions.size() - repeatUsers()))) {
                 for (Question question : questions) {
-                    viewEntities.add(new FullQuestion(question,findUser(question.getUserId())));
+                    viewEntities.add(new MainQuestion(question,findUser(question.getUserId())));
                 }
             } else if (questions.size() > 0) {
                 for (Question question : questions) {
-                    viewEntities.add(new FullQuestion(question));
+                    viewEntities.add(new MainQuestion(question));
                 }
             }
             return viewEntities;

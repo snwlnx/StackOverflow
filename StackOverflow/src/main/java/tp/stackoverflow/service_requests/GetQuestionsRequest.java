@@ -70,7 +70,7 @@ public class GetQuestionsRequest extends ServiceRequest {
         return intentFilter;
     }
     @Override
-    public void processEntityObject(ResponseHandler handler, JSONArray jArray) {
+    public void choiceEntityHandlerMethod(ResponseHandler handler, JSONArray jArray) {
         handler.processQuestionObject(this,jArray);
     }
     @Override
@@ -101,7 +101,7 @@ public class GetQuestionsRequest extends ServiceRequest {
     }
 
     @Override
-    public void processObject(JSONObject jsonObject) {
+    public void writeObjectToDB(JSONObject jsonObject) {
         try {
             questionDao.create(convertToEntity(jsonObject));
         } catch (SQLException e) {

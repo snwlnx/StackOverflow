@@ -7,8 +7,9 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import android.content.Context;
 
 public class DataBaseManager {
+
     private static volatile DataBaseManager instance;
-    private volatile DataBaseHelper helper;
+    private        volatile DataBaseHelper  helper;
 
     private DataBaseManager() {}
 

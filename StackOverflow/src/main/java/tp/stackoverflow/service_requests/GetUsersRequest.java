@@ -67,7 +67,6 @@ public class GetUsersRequest extends ServiceRequest{
     public URL getUrl(RESTMethods restMethods){
         //TODO check
         String str = usersId.toString().replaceAll("\\[","").replaceAll("\\]","").replaceAll(",",";").replaceAll(" ","");
-
         return restMethods.getUsersUrl(str);
     }
 
@@ -76,7 +75,7 @@ public class GetUsersRequest extends ServiceRequest{
 
 
     @Override
-    public void processEntityObject(ResponseHandler handler, JSONArray jArray) {
+    public void choiceEntityHandlerMethod(ResponseHandler handler, JSONArray jArray) {
         handler.processUserObject(this,jArray);
     }
 
@@ -99,8 +98,6 @@ public class GetUsersRequest extends ServiceRequest{
         return new ResponseMessage(mRequestId,mStatus);
     }
 
-
-
     @Override
     protected User convertToEntity(JSONObject jObject) {
         User user = new User();
@@ -119,7 +116,7 @@ public class GetUsersRequest extends ServiceRequest{
 
 
     @Override
-    public void processObject(JSONObject jsonObject) {
+    public void writeObjectToDB(JSONObject jsonObject) {
         try {
             userDao.create(convertToEntity(jsonObject));
         } catch (SQLException e) {

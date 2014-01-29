@@ -65,8 +65,8 @@ public class User implements DbEntity {
     }
 
     @DatabaseField(dataType= DataType.BYTE_ARRAY)
-    private byte[]   profile_image;
-    public  byte[]   getImage() {
+    private byte[] profile_image;
+    public  byte[] getImage() {
         return profile_image;
     }
     public  void   setImage(byte[]  bytes) {

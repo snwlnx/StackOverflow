@@ -21,7 +21,7 @@ public abstract class DbContract {
         sURIMatcher.addURI(AUTHORITY, Questions.TABLE_NAME, Questions.URI_NUMBER);
         sURIMatcher.addURI(AUTHORITY, Answers.TABLE_NAME,   Answers.URI_NUMBER);
         sURIMatcher.addURI(AUTHORITY, Comments.TABLE_NAME,  Comments.URI_NUMBER);
-        sURIMatcher.addURI(AUTHORITY, Users.TABLE_NAME,     Users.URI_NUMBER);
+        sURIMatcher.addURI(AUTHORITY, Users.TABLE_NAME,     Users.URI_NUMBER);git 
     }
 
 
